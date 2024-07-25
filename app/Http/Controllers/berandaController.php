@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\atk;
 use App\Models\user;
+use App\Models\unit;
 use App\Models\rekamTambahSaldoAtk;
 use App\Models\rekamPendaftaranAtk;
 use App\Models\requestAtk;
@@ -27,6 +28,8 @@ class berandaController extends Controller
 
         $dataUser = user::all();
 
+        $dataUnit = unit::all();
+
         $countDataAtk = count($dataAtk);
         $countDataSouvenir = count($dataSouvenir);
 
@@ -35,11 +38,13 @@ class berandaController extends Controller
 
         $countDataUser = count($dataUser);
 
+        $countDataUnit = count($dataUnit);
+
         return view('dashboard.beranda',[
             'countDataAtk' => $countDataAtk,
             'countDataSouvenir' => $countDataSouvenir,
             'countDataUser' => $countDataUser,
-
+            'countDataUnit' => $countDataUnit,
             'countDataRequestAtk' => $countDataRequestAtk,
             'countDataRequestSouvenir' => $countDataRequestSouvenir
         ]);

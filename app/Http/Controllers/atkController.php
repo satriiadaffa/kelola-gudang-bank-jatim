@@ -359,7 +359,25 @@ class atkController extends Controller
     }
 
     public function indexLaporanAtk(){
-        return view('dashboard.atk.laporan.indexlaporanAtk');
+
+        $dataUnits = unit::all();
+        return view('dashboard.atk.laporan.indexlaporanAtk',[
+            'dataUnits' => $dataUnits
+        ]);
+    }
+
+    public function showLaporanAtk($id){
+
+        $unit = unit::where('kodeUnit',$id)->first();
+
+        $namaUnit = $unit->namaUnit;
+        $dataRequestAtks = requestAtk::where('namaUnit',$namaUnit)->get();
+        
+
+        return view('dashboard.atk.laporan.showlaporanAtk',[
+            'dataRequestAtks' => $dataRequestAtks,
+            'namaUnit' => $namaUnit
+        ]);
     }
 
 }

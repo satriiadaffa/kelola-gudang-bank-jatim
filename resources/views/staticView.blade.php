@@ -5,15 +5,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="text/javascript" src="{{url('jquery.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('DataTables/js/jquery.dataTables.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('popper.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('bootstrap-5.3.1/dist/js/bootstrap.min.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{url('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url('DataTables/css/jquery.dataTables.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url('DataTables/css/dataTables.bootstrap.css')}}">
-    <link rel="stylesheet" href="{{url('css/staticView.css')}}">
-    <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}">
+    <script type="text/javascript" src="{{asset('jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('DataTables/js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('popper.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bootstrap-5.3.1/dist/js/bootstrap.min.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/jquery.dataTables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/dataTables.bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('css/staticView.css')}}">
+    <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
 
 
     
@@ -57,6 +57,10 @@
                     <i class="fa-solid fa-people-group"></i>
                     <span class="link">Tabel Unit</span>
                   </a>
+                  <a class="sub-list" href="/tabel-kode">
+                    <i class="fa-solid fa-people-group"></i>
+                    <span class="link">Tabel Kode</span>
+                  </a>
               </ul>
             <li class="list">
               <a class="nav-link" onclick="showTransactions()">
@@ -87,11 +91,11 @@
               </a>
             </li>
             <ul class="sub-menu-reports">
-                <a class="sub-list" href="/laporan-atk">
+                <a class="sub-list" href="/laporan-atk/index">
                   <i class="fa-solid fa-pencil"></i>
                   <span class="link">Laporan ATK</span>
                 </a>
-                <a class="sub-list" href="/laporan-souvenir">
+                <a class="sub-list" href="/laporan-souvenir/index">
                   <i class="fas fa-boxes"></i>
                   <span class="link">Laporan Souvenir</span>
                 </a>

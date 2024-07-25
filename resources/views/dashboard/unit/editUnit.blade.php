@@ -29,24 +29,6 @@
         <form action="{{url('/kirim-edit-unit/'.$dataUnit->kodeUnit)}}" class="form" method="post">
             @csrf
         <div class="row">
-                <div class="col-10">
-                        <div class="group">
-                        <input
-                        autofocus
-                        value="{{$dataUnit->namaUnit}}"
-                        placeholder="" 
-                        type="text" 
-                        id="namaUnit" 
-                        name="namaUnit" 
-                        required>
-                        <label for="namaUnit">Nama Unit</label>
-                        @error('namaUnit')
-                        <div class="text-danger" id='error'>{{ $message }}</div>
-                    @enderror
-                        </div>
-                </div>
-        </div>
-        <div class="row">
             <div class="col-10">
                 <div class="group">
                     <input
@@ -61,6 +43,57 @@
                     required >
                     <label for="kodeUnit">Kode Unit</label>
                 </div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                    <div class="group">
+                    <input
+                    autofocus
+                    value="{{$dataUnit->namaUnit}}"
+                    placeholder="" 
+                    type="text" 
+                    id="namaUnit" 
+                    name="namaUnit" 
+                    required>
+                    <label for="namaUnit">Nama Unit</label>
+                    @error('namaUnit')
+                    <div class="text-danger" id='error'>{{ $message }}</div>
+                    @enderror
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                    <div class="group">
+                    <input
+                    value="{{$dataUnit->no_rekening}}"
+                    placeholder="" 
+                    type="text" 
+                    id="noRekening" 
+                    name="noRekening" 
+                    required>
+                    <label for="noRekening">Nomor Rekening</label>
+                    @error('noRekening')
+                    <div class="text-danger" id='error'>{{ $message }}</div>
+                    @enderror
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                    <div class="group">
+                        <select id="lokasi" name="lokasi" required>
+                            <option value="" disabled {{ old('lokasi', $dataUnit->lokasi) == '' ? 'selected' : '' }}>Pilih Lokasi</option>
+                            <option value="cabang" {{ old('lokasi', $dataUnit->lokasi) == 'cabang' ? 'selected' : '' }}>Cabang</option>
+                            <option value="non-cabang" {{ old('lokasi', $dataUnit->lokasi) == 'non-cabang' ? 'selected' : '' }}>Non-Cabang</option>
+                        </select>
+                        <label for="lokasi">Lokasi</label>
+                        @error('lokasi')
+                    <div class="text-danger" id='error'>{{ $message }}</div>
+                    @enderror
+                    </div>
+                    
             </div>
         </div>
         <div class="row">

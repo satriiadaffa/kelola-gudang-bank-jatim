@@ -11,7 +11,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\kodeGLController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\transaksiController;
-
+use App\Models\kodeGL;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tabel-atk', [atkController::class, 'showTabelAtk']);
     Route::get('/tabel-souvenir', [souvenirController::class, 'showTabelSouvenir']);
     Route::get('/tabel-unit', [unitController::class, 'showTabelUnit']);
+    Route::get('/tabel-kode', [kodeGLController::class, 'showTabelKode']);
 
     Route::get('/transaksi-atk-masuk', [transaksiController::class, 'indexTransaksiMasuk']);
     Route::get('/transaksi-atk-masuk-tambah-saldo', [transaksiController::class, 'indexTransaksiMasukTambahSaldo']);
@@ -91,6 +92,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kirim-edit-unit/{kodeUnit}', [unitController::class, 'kirimEditUnit']);
     Route::get('/hapus-unit/{kodeUnit}', [unitController::class, 'hapusUnit']);
 
+    Route::get('/edit-kode/{kodeKode}', [kodeGLController::class, 'editKode']);
+    Route::post('/kirim-edit-kode/{kodeKode}', [kodeGLController::class, 'kirimEditKode']);
+    Route::get('/hapus-kode/{kodeKode}', [kodeGLController::class, 'hapusKode']);
+
     Route::get('/edit-user/{nip}', [userController::class, 'editUser']);
     Route::post('/kirim-edit-user/{nip}', [userController::class, 'kirimEditUser']);
     Route::get('/hapus-user/{nip}', [userController::class, 'hapusUser']);
@@ -108,15 +113,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/laporan-atk/all', [atkController::class, 'tabelLaporanAtk']);
-
-    Route::get('/test', function (){
-        return "okay";
-    });
-
     Route::get('/laporan-atk/index', [atkController::class, 'indexLaporanAtk']);
+    Route::get('/laporan-atk/{id}', [atkController::class, 'showLaporanAtk']);
 
+    Route::get('/laporan-souvenir/all', [souvenirController::class, 'tabelLaporanSouvenir']);
+    Route::get('/laporan-souvenir/index', [souvenirController::class, 'indexLaporanSouvenir']);
+    Route::get('/laporan-souvenir/{id}', [souvenirController::class, 'showLaporanSouvenir']);
 
-    Route::get('/laporan-souvenir', [souvenirController::class, 'tabelLaporanSouvenir']);
 
     Route::get('/account/edit/{nip}', [userController::class, 'accountEditIndex']);
     Route::post('/account/edit/kirim/{nip}', [userController::class, 'accountEditKirim']);

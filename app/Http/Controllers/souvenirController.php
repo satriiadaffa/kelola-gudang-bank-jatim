@@ -349,4 +349,26 @@ class souvenirController extends Controller
             'requestDebetNesteds' => $requestDebetNested
         ]);
     }
+
+    public function indexLaporanSouvenir(){
+
+        $dataUnits = unit::all();
+        return view('dashboard.souvenir.laporan.indexlaporanSouvenir',[
+            'dataUnits' => $dataUnits
+        ]);
+    }
+
+    public function showLaporanSouvenir($id){
+
+        $unit = unit::where('kodeUnit',$id)->first();
+
+        $namaUnit = $unit->namaUnit;
+        $dataRequestSouvenirs = requestSouvenir::where('namaUnit',$namaUnit)->get();
+        
+
+        return view('dashboard.souvenir.laporan.showlaporanSouvenir',[
+            'dataRequestSouvenirs' => $dataRequestSouvenirs,
+            'namaUnit' => $namaUnit
+        ]);
+    }
 }

@@ -18,6 +18,8 @@ class unitController extends Controller
 
         $newUnit = unit::create([
             'namaUnit' => $request->namaUnit,
+            'no_rekening' => $request->noRekening,
+            'lokasi' => $request->lokasi,
 
         ]);
 
@@ -36,14 +38,13 @@ class unitController extends Controller
 
         return view('dashboard.unit.tabelUnit',
         [
-
         'dataUnits' => $dataUnit,
         ]);
     }
 
     public function editUnit($kodeUnit){
 
-        $dataUnit = unit::all()->where('kodeUnit',$kodeUnit)->first();
+        $dataUnit = unit::where('kodeUnit',$kodeUnit)->first();
 
 
         return view('dashboard.unit.editUnit', [
@@ -55,14 +56,18 @@ class unitController extends Controller
 
     public function kirimEditUnit(Request $request){
 
-        $validate = $request->validate([
-            'namaUnit' => 'required|unique:unit'
-        ]);
-
-        unit::where('kodeUnit',$request->kodeUnit)->update([
-            'namaUnit' => $request->namaUnit,
-
-        ]);
+            $validate = $request->validate([
+                'namaUnit' => 'required',
+                'noRekening' => 'required',
+                'lokasi' => 'required',
+            ]);
+    
+            unit::where('kodeUnit',$request->kodeUnit)->update([
+                'namaUnit' => $request->namaUnit,
+                'no_rekening' => $request->noRekening,
+                'lokasi' => $request->lokasi,
+    
+            ]);
 
         return redirect('/tabel-unit')->with('message','Unit Telah Diedit');
         

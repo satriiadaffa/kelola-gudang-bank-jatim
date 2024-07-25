@@ -32,7 +32,7 @@
               </div>
             </div>
             <div class="col-1">
-                <a class="btn btn-danger"href="{{url('/beranda')}}">
+                <a class="btn btn-danger"href="{{url('/laporan-atk/index')}}">
                     <i class="fa-solid fa-angles-left"></i>
                     <span>Kembali</span>
                 </a>

@@ -40,10 +40,24 @@
                         id="kode" 
                         name="kode" 
                         required>
-                        <label for="kode">Kode</label>
+                        <label for="kode">Kode Kredit</label>
                         </div>
                 </div>
         </div>
+        <div class="row">
+            <div class="col-10">
+                    <div class="group">
+                    <input
+                    value="{{old('kode_debit')}}"
+                    placeholder="" 
+                    type="text" 
+                    id="kode_debit" 
+                    name="kode_debit" 
+                    required>
+                    <label for="kode_debit">Kode Debit</label>
+                    </div>
+            </div>
+    </div>
         <div class="row">
             <div class="col-10">
                     <div class="group">

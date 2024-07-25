@@ -95,6 +95,34 @@
                 </div>
             </div>       
         </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card-container" id="tambah-unit">
+                            <div class="card-title">
+                                <div class="data-count btn btn-danger">{{$countDataUnit}} Data</div>
+                                <div class="data-name">Pendaftaran Unit</div>
+                            </div>
+                        <a href="/tambah-unit"class="streched-link" >
+                            <div class="plus-icon text-center">
+                                <i class="fa-solid fa-plus" style="color: white"></i>
+                            </div>
+                        </a>
+                        </div>
+            </div>
+            <div class="col-6">
+                    <div class="card-container" id="reset-season">
+                                <div class="card-title">
+                                    <div class="data-name">Reset Data</div>
+                                </div>
+                            <a href="/reset-season"class="streched-link"onclick="return confirm('Apakah Anda Yakin Ingin Reset Data Untuk Inputan di Bulan Baru?');">
+                                <div class="plus-icon text-center">
+                                    <i class="fa-solid fa-plus" style="color: white"></i>
+                                </div>
+                            </a>
+                    </div>
+                @endif
+            </div>
+        </div>
         @if(Auth::user()->role =='Super Admin')
             <div class="row">
                 <div class="col">
@@ -112,21 +140,7 @@
                 </div>
             </div>
         @endif
-        <div class="row">
-            <div class="col">
-                    <div class="card-container" id="reset-season">
-                                <div class="card-title">
-                                    <div class="data-name">Reset Season</div>
-                                </div>
-                            <a href="/reset-season"class="streched-link"onclick="return confirm('Apakah Anda Yakin Ingin Reset Data Untuk Inputan di Bulan Baru?');">
-                                <div class="plus-icon text-center">
-                                    <i class="fa-solid fa-plus" style="color: white"></i>
-                                </div>
-                            </a>
-                    </div>
-                @endif
-            </div>
-        </div>
+        
     </div>
     @endsection
 

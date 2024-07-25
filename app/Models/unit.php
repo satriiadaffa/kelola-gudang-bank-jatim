@@ -13,9 +13,9 @@ class unit extends Model
     protected $fillable = [
 
         'namaUnit',
-        'kodeUnit'
-
-
+        'kodeUnit',
+        'no_rekening',
+        'lokasi'
     ];
 
 }

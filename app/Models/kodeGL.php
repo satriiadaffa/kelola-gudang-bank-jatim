@@ -14,6 +14,7 @@ class kodeGL extends Model
 
         'namaKode',
         'kode',
+        'kode_debit',
         'kodeGabungan',
         'kategori'
 

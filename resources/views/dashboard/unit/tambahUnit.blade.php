@@ -34,7 +34,7 @@
                 <div class="col-10">
                         <div class="group">
                         <input
-                        value="{{old('kode')}}"
+                        value="{{old('namaUnit')}}"
                         placeholder="" 
                         type="text" 
                         id="namaUnit" 
@@ -43,6 +43,33 @@
                         <label for="namaUnit">Nama Unit</label>
                         </div>
                 </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                    <div class="group">
+                    <input
+                    value="{{old('noRekening')}}"
+                    placeholder="" 
+                    type="text" 
+                    id="noRekening" 
+                    name="noRekening" 
+                    required>
+                    <label for="noRekening">Nomor Rekening</label>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                    <div class="group">
+                        <select id="lokasi" name="lokasi" required>
+                            <option value="" disabled selected>Pilih Lokasi</option>
+                            <option value="cabang">Cabang</option>
+                            <option value="non-cabang">Non-Cabang</option>
+                        </select>
+                        <label for="lokasi">Lokasi</label>
+                    </div>
+                    
+            </div>
         </div>
         <div class="row">
             <div class="col-10">

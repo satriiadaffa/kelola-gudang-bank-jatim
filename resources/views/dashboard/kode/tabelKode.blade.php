@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tabel Unit</title>
+    <title>Tabel Kode</title>
     <script type="text/javascript" src="{{url('jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{url('DataTables/js/jquery.dataTables.min.js')}}"></script>
 	<link rel="stylesheet" type="text/css" href="{{url('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
@@ -22,7 +22,7 @@
             <div class="col">
               <div class="page-title">
                   <i class="fa-solid fa-pencil"></i>
-                  <span>Tabel Unit</span>
+                  <span>Tabel Kode</span>
               </div>
             </div>
           </div>
@@ -52,26 +52,28 @@
                 <table class="table table-striped table-bordered data">
                     <thead>
                         <tr>			
-                            <th>Kode Unit</th>
-                            <th>Nama Unit</th>
-                            <th>Nomor Rekening</th>
+                            <th>Kode Kredit</th>
+                            <th>Kode Debit</th>
+                            <th>Nama Kode</th>
+                            <th>Kategori</th>
                             @if(Auth::user()->role !='manager')
                             <th>Aksi</th>
                             @endif 
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($dataUnits as $dataUnit)
+                        @foreach($dataKodes as $dataKode)
                             <tr>				
-                                <td>{{$dataUnit->kodeUnit}}</td>
-                                <td>{{$dataUnit->namaUnit}} ({{$dataUnit->lokasi}})</td>
-                                <td>{{$dataUnit->no_rekening}}</td>
+                                <td>{{$dataKode->kode}}</td>
+                                <td>{{$dataKode->kode_debit}}</td>
+                                <td>{{$dataKode->namaKode}}</td>
+                                <td>{{$dataKode->kategori}}</td>
                                 @if(Auth::user()->role !='manager')
                                 <td class="buttons">
-                                    <a href="{{url('/edit-unit/'.$dataUnit->kodeUnit)}}" class="btn btn-secondary btn-aksi" title="Edit Data {{$dataUnit->kodeUnit}}">
+                                    <a href="{{url('/edit-kode/'.$dataKode->kode)}}" class="btn btn-secondary btn-aksi" title="Edit Data {{$dataKode->kode}}">
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
-                                    <a href="{{ url('/hapus-unit/'.$dataUnit->kodeUnit) }}" class="btn btn-danger btn-hapus" title="Hapus Data {{$dataUnit->kodeUnit}}"
+                                    <a href="{{ url('/hapus-kode/'.$dataKode->kode) }}" class="btn btn-danger btn-hapus" title="Hapus Data {{$dataKode->kode}}"
                                         onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
