@@ -12,6 +12,7 @@ use App\Models\unit;
 use App\Models\rekamTambahSaldoAtk;
 use App\Models\rekamPendaftaranAtk;
 use App\Models\rekamPenghapusanAtk;
+use App\Models\rekamRetur;
 use App\Models\requestAtk;
 
 
@@ -213,8 +214,6 @@ class atkController extends Controller
     }
     public function requestAtk(Request $request){
 
-        
-
         if($request->saldo<$request->debet){
             return redirect('/request-atk')->with('message-danger','Saldo Tidak Cukup!');
         }else{
@@ -371,13 +370,178 @@ class atkController extends Controller
         $unit = unit::where('kodeUnit',$id)->first();
 
         $namaUnit = $unit->namaUnit;
+        $kodeUnit = $unit->kodeUnit;
         $dataRequestAtks = requestAtk::where('namaUnit',$namaUnit)->get();
         
 
         return view('dashboard.atk.laporan.showlaporanAtk',[
             'dataRequestAtks' => $dataRequestAtks,
-            'namaUnit' => $namaUnit
+            'namaUnit' => $namaUnit,
+            'kodeUnit' => $kodeUnit
         ]);
     }
+
+    public function returSaldoAtk($kodeBarang , $id){
+
+        $dataAtk = atk::where('kodeBarang',$kodeBarang)->first();
+
+        $dataRequestAtk = requestAtk::where('kodeBarang',$kodeBarang)->where('id',$id)->first();
+
+        return view('dashboard.atk.returAtk',[
+            'dataAtk' => $dataAtk,
+            'dataRequestAtk' => $dataRequestAtk
+        ]);
+    }
+
+
+    public function kirimReturAtk(Request $request, $kodeBarang){
+        if($request->saldo<$request->debet_retur){
+            return redirect()->back()->with('message-danger', 'Saldo Tidak Cukup!');
+        }else{
+            $dataAtk = atk::where('kodeBarang',$kodeBarang)->first();
+
+            $dataRequestAtk = requestAtk::where('kodeBarang',$kodeBarang)->where('id',$request->id)->first();
+
+            $saldoUpdate = $dataAtk->saldo + $request->debet_retur;
+
+            $debetUpdate = $dataRequestAtk->debet - $request->debet_retur;
+
+            $dataAtk->update([
+                'saldo' => $saldoUpdate
+            ]);
+
+            $dataRequestAtk->update([
+                'debet' => $debetUpdate
+            ]);
+
+            $nip = auth::user()->nip;
+            $userName = auth::user()->userName;
+
+
+            rekamRetur::create([
+                'nip' => $nip,
+                'namaUser' => $userName,
+                'namaBarang' => $request->namaBarang,
+                'tipe' => 'Atk',
+                'kodeBarang' => $request->kodeBarang,
+                'unit' => $request->unit,
+                'debet_retur' => $request->debet_retur
+            ]);
+
+            return redirect()->route('transaksiRetur');
+        }
+
+    }
+
+    public function slipJurnalAtk($kodeUnit){
+
+        $unit = unit::where('kodeUnit', $kodeUnit)->first();
+
+        $unitUmum = unit::where('kodeUnit', "unit_1")->first();
+
+        $namaUnit = $unit->namaUnit;
+
+        $lokasiUnit = $unit->lokasi;
+
+        // Mengambil nilai dari input atau parameter dan memastikan formatnya
+        $tanggal_start = Carbon::parse(request()->input('start_date'))->startOfDay()->format('Y-m-d H:i:s');
+        $tanggal_end = Carbon::parse(request()->input('end_date'))->endOfDay()->format('Y-m-d H:i:s');     
+
+        $dataRequestAtks = requestAtk::where('namaUnit', $namaUnit)
+            ->whereBetween('created_at', [$tanggal_start, $tanggal_end])
+            ->get();
+
+        $dataHargaAtks = [];
+        $debetAtk = [];
+        $hargaAkhirs = [];
+        $hargaTotal = 0;
+        $processedItems = [];
+        $kodeBarangs = [];
+        $debetReturs = [];
+
+        foreach ($dataRequestAtks as $dataRequestAtk) {
+            $kodeBarang = $dataRequestAtk->kodeBarang;
+            $atkItem = atk::where('kodeBarang', $kodeBarang)->first();
+            $hargaSatuan = $atkItem->hargaSatuan;
+            $namaBarang = $atkItem->namaBarang;
+            $debet = intval($dataRequestAtk->debet);
+
+            //Memeriksa apakah ada retur untuk kodeBarang ini
+            $rekamReturs = rekamRetur::where('kodeBarang', $kodeBarang)->where('unit',$namaUnit)->get(); // ini masih first, belum kalo datanya ada banyak, sekian terima gaji
+
+            if (isset($processedItems[$kodeBarang])) {
+                // Jika kodeBarang sudah ada dalam array processedItems, tambahkan debet dan harga total
+                $processedItems[$kodeBarang]['debet'] += $debet;
+                // $processedItems[$kodeBarang]['hargaTotal'] += $hargaSatuan * $debet;
+            } else {
+                foreach ($rekamReturs as $rekamRetur) {
+                    $kodeBarangRetur = $rekamRetur->kodeBarang;
+                    $debetBarangRetur = $rekamRetur->debet_retur;
+    
+                    if (isset($debetReturs[$kodeBarangRetur])) {
+                        // Jika kodeBarangRetur sudah ada dalam array debet $debetReturs, tambahkan keduanya menjadi debet retur
+                        $debetReturs[$kodeBarangRetur]['debet_retur'] += $debetBarangRetur;
+                    } else {
+                        // Jika kodeBarangRetur belum ada dalam array debet $debetReturs, tambahkan entri baru
+                        $debetReturs[$kodeBarangRetur] = [
+                            'namaBarang' => $namaBarang,
+                            'kodeBarangRetur' => $kodeBarangRetur,
+                            'hargaSatuan' => $hargaSatuan,
+                            'debet_retur' => $debetBarangRetur,
+                            // 'hargaTotalRetur' => $hargaSatuan * $debetBarangRetur
+                        ];
+                    }
+                }
+
+                // Jika kodeBarang belum ada dalam array processedItems, tambahkan entri baru
+                $processedItems[$kodeBarang] = [
+                    'namaBarang' => $namaBarang,
+                    'kodeBarang' => $kodeBarang,
+                    'hargaSatuan' => $hargaSatuan,
+                    'debet' => $debet,
+                    // 'hargaTotal' => $hargaSatuan * $debet
+                ];
+
+
+            }
+        }
+        
+
+        // Mengisi array $dataHargaAtks, $debetAtk, dan $hargaAkhirs dari processedItems
+        foreach ($processedItems as $item) {
+            $kodeBarangs[] = [
+                'kodeBarang' => $item['kodeBarang'],
+                'namaBarang' => $item['namaBarang']
+            ];
+            $dataHargaAtks[] = $item['hargaSatuan'];
+            $debetAtk[] = $item['debet'];
+            if(isset($debetReturs[$item['kodeBarang']]['debet_retur'])){
+                $hargaAkhirs[] = ($item['debet'] - $debetReturs[$item['kodeBarang']]['debet_retur']) * $item['hargaSatuan'];
+            }else{
+                $hargaAkhirs[] = $item['debet'] * $item['hargaSatuan'];
+            }
+            
+        }
+
+        
+        $hargaTotal = array_sum($hargaAkhirs);
+
+        $tanggal_end = Carbon::parse(request()->input('end_date'))
+        ->endOfDay()
+        ->translatedFormat('d F Y');
+        
+        // dd($debetReturs, $processedItems, $hargaAkhirs, $hargaTotal);
+        return view('dashboard.atk.laporan.slipJurnalAtk',[
+            'dataHargaAtks' => $dataHargaAtks,
+            'hargaAkhirs' => $hargaAkhirs,
+            'lokasiUnit' => $lokasiUnit,
+            'unitUmum' => $unitUmum,
+            'hargaTotal' => $hargaTotal,
+            'unit' => $unit,
+            'tanggal' => $tanggal_end,
+            'kodeBarangs' => $kodeBarangs,
+        ]);
+    }
+
 
 }

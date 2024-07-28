@@ -53,6 +53,7 @@
                             <th>Debet</th>
                             <th>Tanggal Request</th>
                             <th>Request Oleh (NIP)</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +65,11 @@
                                 <td>{{$data->debet}}</td>
                                 <td>{{$data->created_at}}</td>
                                 <td>{{$data->namaUser}} ({{$data->nip}})</td>
+                                <td class="text-center">
+                                    <a href="{{url('/retur-saldo-souvenir/'.$data->kodeBarang.'/'.$data->id)}}">
+                                        <div class="btn btn-warning" title="Retur Saldo {{$data->kodeBarang}}"><i class="fa-solid fa-minus"></i></div>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

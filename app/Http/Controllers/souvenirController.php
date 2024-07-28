@@ -12,6 +12,7 @@ use App\Models\unit;
 use App\Models\rekamTambahSaldoSouvenir;
 use App\Models\rekamPendaftaranSouvenir;
 use App\Models\rekamPenghapusanSouvenir;
+use App\Models\rekamRetur;
 use App\Models\requestSouvenir;
 
 use Illuminate\Support\Facades\Auth;
@@ -363,12 +364,180 @@ class souvenirController extends Controller
         $unit = unit::where('kodeUnit',$id)->first();
 
         $namaUnit = $unit->namaUnit;
+        $kodeUnit = $unit->kodeUnit;
         $dataRequestSouvenirs = requestSouvenir::where('namaUnit',$namaUnit)->get();
         
 
         return view('dashboard.souvenir.laporan.showlaporanSouvenir',[
             'dataRequestSouvenirs' => $dataRequestSouvenirs,
-            'namaUnit' => $namaUnit
+            'namaUnit' => $namaUnit,
+            'kodeUnit' => $kodeUnit
         ]);
     }
+
+
+    public function returSaldoSouvenir($kodeBarang , $id){
+
+        $dataSouvenir = Souvenir::where('kodeBarang',$kodeBarang)->first();
+
+
+        $dataRequestSouvenir = requestSouvenir::where('kodeBarang',$kodeBarang)->where('id',$id)->first();
+
+        return view('dashboard.Souvenir.returSouvenir',[
+            'dataSouvenir' => $dataSouvenir,
+            'dataRequestSouvenir' => $dataRequestSouvenir
+        ]);
+    }
+
+
+    public function kirimReturSouvenir(Request $request, $kodeBarang){
+        if($request->saldo<$request->debet_retur){
+            return redirect()->back()->with('message-danger', 'Saldo Tidak Cukup!');
+        }else{
+            $dataSouvenir = Souvenir::where('kodeBarang',$kodeBarang)->first();
+
+            $dataRequestSouvenir = requestSouvenir::where('kodeBarang',$kodeBarang)->where('id',$request->id)->first();
+
+            $saldoUpdate = $dataSouvenir->saldo + $request->debet_retur;
+
+            $debetUpdate = $dataRequestSouvenir->debet - $request->debet_retur;
+
+            $dataSouvenir->update([
+                'saldo' => $saldoUpdate
+            ]);
+
+            $dataRequestSouvenir->update([
+                'debet' => $debetUpdate
+            ]);
+
+
+            $nip = auth::user()->nip;
+            $userName = auth::user()->userName;
+
+
+            rekamRetur::create([
+                'nip' => $nip,
+                'namaUser' => $userName,
+                'namaBarang' => $request->namaBarang,
+                'tipe' => 'Souvenir',
+                'kodeBarang' => $request->kodeBarang,
+                'unit' => $request->unit,
+                'debet_retur' => $request->debet_retur
+            ]);
+
+            return redirect()->route('transaksiRetur');
+        }
+    }
+
+    public function slipJurnalSouvenir($kodeUnit){
+
+        $unit = unit::where('kodeUnit', $kodeUnit)->first();
+
+        $unitUmum = unit::where('kodeUnit', "unit_1")->first();
+
+        $namaUnit = $unit->namaUnit;
+
+        $lokasiUnit = $unit->lokasi;
+
+        // Mengambil nilai dari input atau parameter dan memastikan formatnya
+        $tanggal_start = Carbon::parse(request()->input('start_date'))->startOfDay()->format('Y-m-d H:i:s');
+        $tanggal_end = Carbon::parse(request()->input('end_date'))->endOfDay()->format('Y-m-d H:i:s');     
+
+        $dataRequestSouvenirs = requestSouvenir::where('namaUnit', $namaUnit)
+            ->whereBetween('created_at', [$tanggal_start, $tanggal_end])
+            ->get();
+
+        $dataHargaSouvenirs = [];
+        $debetSouvenir = [];
+        $hargaAkhirs = [];
+        $hargaTotal = 0;
+        $processedItems = [];
+        $kodeBarangs = [];
+        $debetReturs = [];
+
+        foreach ($dataRequestSouvenirs as $dataRequestSouvenir) {
+            $kodeBarang = $dataRequestSouvenir->kodeBarang;
+            $souvenirItem = souvenir::where('kodeBarang', $kodeBarang)->first();
+            $hargaSatuan = $souvenirItem->hargaSatuan;
+            $namaBarang = $souvenirItem->namaBarang;
+            $debet = intval($dataRequestSouvenir->debet);
+
+            //Memeriksa apakah ada retur untuk kodeBarang ini
+            $rekamReturs = rekamRetur::where('kodeBarang', $kodeBarang)->where('unit',$namaUnit)->get(); // ini masih first, belum kalo datanya ada banyak, sekian terima gaji
+
+            if (isset($processedItems[$kodeBarang])) {
+                // Jika kodeBarang sudah ada dalam array processedItems, tambahkan debet dan harga total
+                $processedItems[$kodeBarang]['debet'] += $debet;
+                // $processedItems[$kodeBarang]['hargaTotal'] += $hargaSatuan * $debet;
+            } else {
+                foreach ($rekamReturs as $rekamRetur) {
+                    $kodeBarangRetur = $rekamRetur->kodeBarang;
+                    $debetBarangRetur = $rekamRetur->debet_retur;
+    
+                    if (isset($debetReturs[$kodeBarangRetur])) {
+                        // Jika kodeBarangRetur sudah ada dalam array debet $debetReturs, tambahkan keduanya menjadi debet retur
+                        $debetReturs[$kodeBarangRetur]['debet_retur'] += $debetBarangRetur;
+                    } else {
+                        // Jika kodeBarangRetur belum ada dalam array debet $debetReturs, tambahkan entri baru
+                        $debetReturs[$kodeBarangRetur] = [
+                            'namaBarang' => $namaBarang,
+                            'kodeBarangRetur' => $kodeBarangRetur,
+                            'hargaSatuan' => $hargaSatuan,
+                            'debet_retur' => $debetBarangRetur,
+                            // 'hargaTotalRetur' => $hargaSatuan * $debetBarangRetur
+                        ];
+                    }
+                }
+
+                // Jika kodeBarang belum ada dalam array processedItems, tambahkan entri baru
+                $processedItems[$kodeBarang] = [
+                    'namaBarang' => $namaBarang,
+                    'kodeBarang' => $kodeBarang,
+                    'hargaSatuan' => $hargaSatuan,
+                    'debet' => $debet,
+                    // 'hargaTotal' => $hargaSatuan * $debet
+                ];
+
+
+            }
+        }
+        
+
+        // Mengisi array $dataHargaSouvenirs, $debetSouvenir, dan $hargaAkhirs dari processedItems
+        foreach ($processedItems as $item) {
+            $kodeBarangs[] = [
+                'kodeBarang' => $item['kodeBarang'],
+                'namaBarang' => $item['namaBarang']
+            ];
+            $dataHargaSouvenirs[] = $item['hargaSatuan'];
+            $debetSouvenir[] = $item['debet'];
+            if(isset($debetReturs[$item['kodeBarang']]['debet_retur'])){
+                $hargaAkhirs[] = ($item['debet'] - $debetReturs[$item['kodeBarang']]['debet_retur']) * $item['hargaSatuan'];
+            }else{
+                $hargaAkhirs[] = $item['debet'] * $item['hargaSatuan'];
+            }
+            
+        }
+
+        
+        $hargaTotal = array_sum($hargaAkhirs);
+
+        $tanggal_end = Carbon::parse(request()->input('end_date'))
+        ->endOfDay()
+        ->translatedFormat('d F Y');
+        
+        // dd($debetReturs, $processedItems, $hargaAkhirs, $hargaTotal);
+        return view('dashboard.souvenir.laporan.slipJurnalSouvenir',[
+            'dataHargaSouvenirs' => $dataHargaSouvenirs,
+            'hargaAkhirs' => $hargaAkhirs,
+            'lokasiUnit' => $lokasiUnit,
+            'unitUmum' => $unitUmum,
+            'hargaTotal' => $hargaTotal,
+            'unit' => $unit,
+            'tanggal' => $tanggal_end,
+            'kodeBarangs' => $kodeBarangs,
+        ]);
+    }
+
+    
 }

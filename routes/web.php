@@ -61,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transaksi-souvenir-keluar', [transaksiController::class, 'indexRequestSouvenir']);
     Route::get('/rekaman-penghapusan-souvenir', [transaksiController::class, 'indexRekamanPenghapusanSouvenir']);
 
+    Route::get('/transaksi-retur', [transaksiController::class, 'indexTransaksiRetur'])->name('transaksiRetur');
 
     Route::get('/pendaftaran-atk', [atkController::class, 'index']);
     Route::post('/kirim-tambah-atk', [atkController::class, 'pendaftaranAtk']);
@@ -70,6 +71,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kirim-edit-atk/{kodeBarang}', [atkController::class, 'kirimEditATK']);
     Route::get('/hapus-atk/{kodeBarang}', [atkController::class, 'hapusATK']);
     Route::get('/request-atk', [atkController::class, 'indexRequestAtk']);
+    Route::get('/retur-saldo-atk/{kodeBarang}/{id}', [atkController::class, 'returSaldoAtk']);
+    Route::post('/kirim-retur-atk/{kodeBarang}', [atkController::class, 'kirimReturATK']);
+    Route::post('/slip-jurnal-atk/{kodeBarang}', [atkController::class, 'slipJurnalAtk']);
 
     Route::get('/pendaftaran-souvenir', [souvenirController::class, 'index']);
     Route::post('/kirim-tambah-souvenir', [souvenirController::class, 'pendaftaranSouvenir']);
@@ -79,6 +83,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kirim-edit-souvenir/{kodeBarang}', [souvenirController::class, 'kirimEditSouvenir']);
     Route::get('/hapus-souvenir/{kodeBarang}', [souvenirController::class, 'hapusSouvenir']);
     Route::get('/request-souvenir', [souvenirController::class, 'indexRequestSouvenir']);
+    Route::get('/retur-saldo-souvenir/{kodeBarang}/{id}', [souvenirController::class, 'returSaldoSouvenir']);
+    Route::post('/kirim-retur-souvenir/{kodeBarang}', [souvenirController::class, 'kirimReturSouvenir']);
+    Route::post('/slip-jurnal-souvenir/{kodeBarang}', [souvenirController::class, 'slipJurnalSouvenir']);
 
     Route::get('/get-nama-barang/{kodeGL}', [atkController::class, 'getNamaBarang']);
     Route::get('/get-saldo-barang/{namaBarang}', [atkController::class, 'getSaldoBarang']);

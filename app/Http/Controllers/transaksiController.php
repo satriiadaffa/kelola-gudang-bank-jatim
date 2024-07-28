@@ -12,6 +12,7 @@ use App\Models\rekamPenghapusanAtk;
 use App\Models\rekamTambahSaldoSouvenir;
 use App\Models\rekamPendaftaranSouvenir;
 use App\Models\rekamPenghapusanSouvenir;
+use App\Models\rekamRetur;
 use App\Models\requestAtk;
 use App\Models\requestSouvenir;
 
@@ -102,5 +103,17 @@ class transaksiController extends Controller
             'datas' => $data
         ]);
     }
+
+    // Retur
+
+    public function indexTransaksiRetur(){
+
+        $dataRetur = rekamRetur::all();
+        return view('dashboard.transaksiRetur',[
+            'datas' => $dataRetur
+        ]);
+    }
+
+
 }
 

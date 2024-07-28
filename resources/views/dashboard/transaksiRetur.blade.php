@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Transaksi ATK Keluar</title>
+    <title>Transaksi Retur</title>
     <script type="text/javascript" src="{{url('jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{url('DataTables/js/jquery.dataTables.min.js')}}"></script>
 	<link rel="stylesheet" type="text/css" href="{{url('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
@@ -22,24 +22,8 @@
             <div class="col-9">
               <div class="page-title">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                  <span>Transaksi ATK Keluar</span>
+                  <span>Transaksi Retur</span>
               </div>
-            </div>
-            <div class="col-3">
-                <a href="/transaksi-atk-masuk" class="btn btn-success">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    <span>Transaksi ATK Masuk</span>
-                </a>
-              </div>
-              <div class="row">
-                <a href="" class="col-3 btn btn-secondary" style="border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Request Unit</span>
-                </a>
-                <a href="/rekaman-penghapusan" class="col-3 btn btn-light" style="border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Rekaman Penghapusan</span>
-                </a>
             </div>
           </div>
         <div class="row">
@@ -50,10 +34,10 @@
                             <th>Nama Barang</th>
                             <th>Kode Barang</th>
                             <th>Unit</th>
-                            <th>Debet</th>
+                            <th>Tipe</th>
+                            <th>Debet Retur</th>
                             <th>Tanggal Request</th>
                             <th>Request Oleh (NIP)</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,15 +45,11 @@
                             <tr>				
                                 <td>{{$data->namaBarang}}</td>
                                 <td>{{$data->kodeBarang}}</td>
-                                <td>{{$data->namaUnit}}</td>
-                                <td>{{$data->debet}}</td>
+                                <td>{{$data->unit}}</td>
+                                <td>{{$data->tipe}}</td>
+                                <td>{{$data->debet_retur}}</td>
                                 <td>{{$data->created_at}}</td>
-                                <td>{{$data->namaUser}}({{$data->nip}})</td>
-                                <td class="text-center">
-                                    <a href="{{url('/retur-saldo-atk/'.$data->kodeBarang.'/'.$data->id)}}">
-                                        <div class="btn btn-warning" title="Retur Saldo {{$data->kodeBarang}}"><i class="fa-solid fa-minus"></i></div>
-                                    </a>
-                                </td>
+                                <td>{{$data->namaUser}} ({{$data->nip}})</td>
                             </tr>
                         @endforeach
                     </tbody>

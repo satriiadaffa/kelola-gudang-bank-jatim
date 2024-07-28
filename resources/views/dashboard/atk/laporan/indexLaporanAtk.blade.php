@@ -39,8 +39,8 @@
                 <table class="table table-striped table-bordered data">
                     <thead>
                         <tr>			
-                            <th>Nama Unit</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Nama Unit</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,10 +48,12 @@
                         <tr>
                             <td>{{$dataUnit->namaUnit}}</td>
                             <td>
-                                <a class="btn btn-outline-info"href="{{url('/laporan-atk/'.$dataUnit->kodeUnit)}}">
-                                    <i class="fa-solid fa-eye"></i>
-                                    <span>Lihat data</span>
-                                </a>
+                                <div class="d-flex">
+                                    <a class="btn btn-outline-info m-1" href="{{url('/laporan-atk/'.$dataUnit->kodeUnit)}}">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span>Lihat data</span>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

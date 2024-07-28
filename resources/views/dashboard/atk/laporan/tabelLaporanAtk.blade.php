@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tabel ATK {{$yearMonth}}</title>
-    <script type="text/javascript" src="{{url('jquery.min.js')}}"></script>
-	<script type="text/javascript" src="{{url('DataTables/js/jquery.dataTables.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/dataTables.buttons.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/jszip.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/pdfmake.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/dvfs_fonts.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/buttons.html5.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/buttons.print.min.js')}}"></script>
-	<link rel="stylesheet" type="text/css" href="{{url('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url('DataTables/css/jquery.dataTables.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url('DataTables/css/dataTables.bootstrap.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url('DataTables/css/buttons.dataTables.min.css')}}"> 
-    <link rel="stylesheet" href="{{url('css/beranda.css')}}">
-    <link rel="stylesheet" href="{{url('css/tabel.css')}}">
-    <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}">
+    <script type="text/javascript" src="{{asset('jquery.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('DataTables/js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/dataTables.buttons.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jszip.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/pdfmake.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/vfs_fonts.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/buttons.html5.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/buttons.print.min.js')}}"></script>
+	<link rel="stylesheet" type="text/css" href="{{asset('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/jquery.dataTables.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/dataTables.bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/buttons.dataTables.min.css')}}"> 
+    <link rel="stylesheet" href="{{asset('css/beranda.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tabel.css')}}">
+    <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
 
     
 <body>

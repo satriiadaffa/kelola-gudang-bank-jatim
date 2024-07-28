@@ -58,7 +58,7 @@
                     <span class="link">Tabel Unit</span>
                   </a>
                   <a class="sub-list" href="/tabel-kode">
-                    <i class="fa-solid fa-people-group"></i>
+                    <i class="fa-solid fa-barcode"></i>
                     <span class="link">Tabel Kode</span>
                   </a>
               </ul>
@@ -79,6 +79,10 @@
                 <a class="sub-list" href="/transaksi-souvenir-masuk">
                   <i class="fas fa-boxes"></i>
                   <span class="link">Transaksi Souvenir</span>
+                </a>
+                <a class="sub-list" href="/transaksi-retur">
+                  <i class="fas fa-rotate-left"></i>
+                  <span class="link">Transaksi Retur</span>
                 </a>
             </ul>
             <li class="list">
