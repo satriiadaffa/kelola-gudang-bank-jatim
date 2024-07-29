@@ -23,9 +23,14 @@ class loginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $role = Auth::user()->role;
+            $user = Auth::user();
 
-            if($role !== "Manager"){
+            $user->last_session_id = session()->getId();
+            $user->last_login_at = now();
+            $user->last_login_ip = request()->ip();
+            $user->save();
+            
+            if($user->role !== "Manager"){
                 return redirect('/beranda');
             }else{
                 return redirect('/tabel-atk');

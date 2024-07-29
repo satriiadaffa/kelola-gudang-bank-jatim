@@ -25,7 +25,8 @@ class user extends Authenticatable
         'nip',
         'userName',
         'password',
-        'role'
+        'role',
+        'last_login_at', 'last_login_ip'
     ];
 
     /**

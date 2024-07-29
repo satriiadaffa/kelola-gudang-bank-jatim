@@ -38,10 +38,8 @@ Route::get('/staticView', function () {
 });
 
 
-
-
-Route::middleware(['auth'])->group(function () {
-
+Route::group(['middleware' => ['auth', 'checkLoginDevice']], function () {
+    // Protected routes
     Route::get('/beranda', [berandaController::class, 'index']);
 
     Route::get('/reset-season', [berandaController::class, 'reset']);
@@ -131,9 +129,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account/edit/{nip}', [userController::class, 'accountEditIndex']);
     Route::post('/account/edit/kirim/{nip}', [userController::class, 'accountEditKirim']);
     Route::post('/account/hapus/{nip}', [userController::class, 'accountHapus']);
-    
-    
 });
+
 
 
 
