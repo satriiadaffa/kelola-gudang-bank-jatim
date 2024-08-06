@@ -14,9 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/dataTables.bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/staticView.css')}}">
     <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
-
-
-    
+    <link rel="icon" type="image/x-icon" href="{{asset('image/icon.png')}}">
   </head>
   <body>
     <nav>

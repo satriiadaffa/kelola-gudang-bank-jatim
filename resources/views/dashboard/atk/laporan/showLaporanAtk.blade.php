@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/beranda.css')}}">
     <link rel="stylesheet" href="{{asset('css/formInput.css')}}">
     <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('image/icon.png')}}">
     @extends('staticView')
 </head>
 <body>

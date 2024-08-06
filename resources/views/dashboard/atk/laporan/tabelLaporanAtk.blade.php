@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="{{asset('css/beranda.css')}}">
     <link rel="stylesheet" href="{{asset('css/tabel.css')}}">
     <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
-
-    
+    <link rel="icon" type="image/x-icon" href="{{asset('image/icon.png')}}">
+</head>
 <body>
     <div class="container-page-table">
         <div class="row">
@@ -38,30 +38,9 @@
                 </a>
               </div>
           </div>
-          @if (session('message'))
-          <div class="row">
-            <div class="col">
-                <div class="alert-con">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <label>{{ session('message') }}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @elseif (session('message-delete'))
-          <div class="row">
-            <div class="col">
-                <div class="alert-con">
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <label>{{ session('message-delete') }}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
         <div class="row">
             <div class="col table-container">
-                <table class="table table-striped table-bordered data hover" idstyle="width: 100%;">
+                <table class="table table-striped table-bordered data hover" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -166,6 +145,5 @@
             } );
     } );
 </script>
-
 </body>
 </html>

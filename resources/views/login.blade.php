@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{url('css/login.css')}}">
     <link rel="stylesheet" href="{{url('bootstrap-5.3.1/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url('bootstrap-5.3.1/dist/js/bootstrap.bundle.min.js')}}">
-    
+    <link rel="icon" type="image/x-icon" href="{{asset('image/icon.png')}}">
 </head>
 <body>
     <div class="container">

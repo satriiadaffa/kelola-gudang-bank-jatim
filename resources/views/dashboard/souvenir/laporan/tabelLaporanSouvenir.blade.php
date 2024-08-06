@@ -5,21 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tabel Souvenir {{$yearMonth}}</title>
-    <script type="text/javascript" src="{{url('jquery.min.js')}}"></script>
-	<script type="text/javascript" src="{{url('DataTables/js/jquery.dataTables.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/dataTables.buttons.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/jszip.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/pdfmake.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/dvfs_fonts.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/buttons.html5.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/buttons.print.min.js')}}"></script>
-	<link rel="stylesheet" type="text/css" href="{{url('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url('DataTables/css/jquery.dataTables.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url('DataTables/css/dataTables.bootstrap.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url('DataTables/css/buttons.dataTables.min.css')}}"> 
-    <link rel="stylesheet" href="{{url('css/beranda.css')}}">
-    <link rel="stylesheet" href="{{url('css/tabel.css')}}">
-    <link rel="stylesheet" href="{{url('fontawesome/css/all.min.css')}}">
+    <script type="text/javascript" src="{{asset('jquery.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('DataTables/js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/dataTables.buttons.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jszip.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/pdfmake.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/vfs_fonts.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/buttons.html5.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/buttons.print.min.js')}}"></script>
+	<link rel="stylesheet" type="text/css" href="{{asset('bootstrap-5.3.1/dist/css/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/jquery.dataTables.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/dataTables.bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/css/buttons.dataTables.min.css')}}"> 
+    <link rel="stylesheet" href="{{asset('css/beranda.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tabel.css')}}">
+    <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('image/icon.png')}}">
 </head>
 <body>
     <div class="container-page-table">
@@ -29,6 +30,7 @@
                   <i class="fa-solid fa-boxes"></i>
                   <span>Tabel Souvenir {{$yearMonth}}</span>
               </div>
+            </div>
               <div class="col-1">
                 <a class="btn btn-danger"href="{{url('/beranda')}}">
                     <i class="fa-solid fa-angles-left"></i>
@@ -36,7 +38,6 @@
                 </a>
               </div>
             </div>
-          </div>
         <div class="row">
             <div class="col table-container">
                 <table class="table table-striped table-bordered data hover" style="width: 100%;">
@@ -114,7 +115,6 @@
                 
             </div>
         </div>
-    </div>
     </div>
 
 
